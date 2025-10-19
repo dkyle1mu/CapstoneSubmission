@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "garden-helper",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - garden-helper",
+			"detail": "next build --turbopack"
+		}
+	]
+}

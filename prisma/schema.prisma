@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Plant {
+  id            Int      @id @default(autoincrement())
+  name          String
+  plantedAt     DateTime @default(now())
+  waterInterval Int      @default(48) // hours
+  timeTillWater Float    @default(48) // hours
+  //###Future Feature: Maintenance Type, Interval and Time (Pruning?) (May make sense to break out harvesting)
+  //###Future Feature: Fertilizer Interval and Time
+  //###Future Feature: Plant Type 
+  //###Future Feature: Species (Could be fairly general, just for syncing with USDA)
+
+  //***Possible Feature: Location in Garden
+  //***Possible Feature: Photos, Active for card and Past for growth tracking
+  //***Possible Feature: Seed Identifier
+  //***Possible Feature: Notes
+}
