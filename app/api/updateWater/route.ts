@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/app/client'
 
+type Plant = { id: number, name: string, waterInterval: number, timeTillWater: number };
+
 export async function POST(request: Request) {
   try {
     const dryPlants: string[] = []
     const plants = await prisma.plant.findMany()
 
-    const updatedPlants = plants.map(async (plant) => {
+    const updatedPlants = plants.map(async (plant: Plant) => {
       let newTimeTillWater = plant.timeTillWater - .1
       if (newTimeTillWater === 0) {
         dryPlants.push(plant.name)
