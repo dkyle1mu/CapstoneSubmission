@@ -1,2 +1,5 @@
 {
+    "explorer.decorations.colors": true,
+    "testing.showCoverageInExplorer": true,
+    "git.decorations.enabled": false
 }

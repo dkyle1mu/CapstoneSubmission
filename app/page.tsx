@@ -5,9 +5,10 @@ import { markWatered, getPlants, deletePlant } from './api/api';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from './api/firebaseSettings';
 
-
+//Initialize Firebase App
 const app = initializeApp(firebaseConfig);
 
+//Define Plant for Plant Cards because TypeScript is Mean to Me
 type Plant = { id: number, name: string, waterInterval: number, timeTillWater: number };
 
 /* Bypassed for Now
@@ -20,13 +21,14 @@ function confirmDelete(id: number, name: string) {
     )
 } */
 
+//Cards for Display on Home Screen
 function PlantCard(plant: Plant) {
    
     return(
         <div className="m-4 p-4 border-1 border-emerald-600 bg-amber-100 rounded-lg">
             <h6 className="-mt-4 text-right"><button type = "button" onClick={() => deletePlant(plant.id)} >x</button></h6>
             <h2 className="text-2xl -mt-1">{plant.name}</h2>
-            <progress value={plant.waterInterval - plant.timeTillWater} max={plant.waterInterval} className="w-full h-4 mt-2 mb-2"></progress>
+            <progress value={plant.waterInterval - plant.timeTillWater} max={plant.waterInterval} className="w-full h-4 mt-2 mb-2 bg-gray-300"></progress>
             <p><b>{plant.timeTillWater}</b> hours until next watering.</p>
             <button type = "button" onClick={() => void markWatered(plant.id, plant.waterInterval)} className="mt-2 p-2 bg-amber-300 rounded-lg hover:bg-amber-500">Just Watered</button>
             {/****Possible Feature: Enter Last Watering Time */}
@@ -34,7 +36,10 @@ function PlantCard(plant: Plant) {
     )
 }
 
+
 export default function Page() {
+    
+    //Magic Code That Makes DB Work With React
     const [plants, setPlants] = useState<Plant[]>([]);
 
     useEffect(() => {
@@ -50,6 +55,7 @@ export default function Page() {
         return () => { mounted = false; };
     }, []);
 
+    //Code for Notification Permissions and Local Option
     useEffect(() => {
       if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
@@ -63,7 +69,8 @@ export default function Page() {
         <h1 className = "text-6xl text-center mt-8 ">Garden</h1>
         <div className="mt-3 grid grid-cols-3">
             {plants.map(plant =>
-                <PlantCard key={plant.id} id={plant.id} name={plant.name} waterInterval={plant.waterInterval} timeTillWater={plant.timeTillWater} />
+                <PlantCard key={plant.id} id={plant.id} name={plant.name}
+                waterInterval={plant.waterInterval} timeTillWater={plant.timeTillWater}/>
             )}
         </div>
         <div className='mt-10 text-center'>

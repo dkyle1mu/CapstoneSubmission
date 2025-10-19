@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/api/firebaseSettings.tsx
+/functions
 
 # next.js
 /.next/

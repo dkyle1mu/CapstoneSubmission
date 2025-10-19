@@ -11,7 +11,7 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-export async function updateWaterNotif() {
+export default async function updateWaterNotif() {
     try { const res = await fetch('/api/updateWater', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -36,6 +36,7 @@ export async function updateWaterNotif() {
     } catch (err) {
         console.error('WE RAN OUT OF WATER! (updateWater failed)', err);
     }
+    return;
 }
 
 setTimeout(() => void updateWater(), 5000); // run once after install

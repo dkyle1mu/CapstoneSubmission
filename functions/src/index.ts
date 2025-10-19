@@ -1,13 +1,15 @@
 import * as logger from "firebase-functions/logger";
 import {pubsub} from "firebase-functions/v1";
+import fetch from "node-fetch";
 
 /**
- * Makes a request to the water update endpoint.
- * @return {Promise<Response>} The response from the water update endpoint.
+ * @async
+ * @return {Promise<Response>}
+ * @throws {Error}
  */
 async function fbWater() {
   try {
-    const response = await fetch("http://localhost:3000/api/updateWater", {
+    const response = await fetch("http://garden-helper.org/api/updateWater", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
     });
@@ -19,7 +21,7 @@ async function fbWater() {
 }
 
 export const hourlyFunction = pubsub
-  .schedule("0 * * * *")
+  .schedule("*/6 * * * *")
   .timeZone("America/Chicago")
   .onRun(async () => {
     try {
@@ -27,6 +29,16 @@ export const hourlyFunction = pubsub
       switch (res.status) {
       case 200:
         logger.log("Watering time!");
+        const payload = await res.json().catch(() => null);
+        if (Array.isArray(payload)) {
+            for (const n of payload) {
+                const options = {
+                    body: n,
+                    data: { url: '/' },
+                };
+                new Notification('Watering Time!', options);
+            }
+        }
         break;
       case 204:
         logger.log("No plants need watering at this time.");

@@ -3,12 +3,12 @@ import { redirect } from "next/navigation";
 import prisma from "../client";
 import { revalidatePath } from "next/cache";
 
-//Run on form submission
+//Run on "Add Plant" Form Submission
 export async function submitCreateForm(formData: FormData) {
     'use server';
     const name = formData.get('name') as string;
     const waterInterval = Number(formData.get('waterInterval'));
-    const timeTillWater = (Number(formData.get('timeTillWater')) || waterInterval); //###Default not currently working?
+    const timeTillWater = (Number(formData.get('timeTillWater')) || waterInterval);
     //const plantedAt = formData.get('plantedAt') as new Date;
     const addPlant = await prisma.plant.create({
         data: {
@@ -33,17 +33,20 @@ export async function markWatered(id: number, waterInterval: number) {
     redirect('/');
 }
 
+//Pulls all Plants (Display and DB Iteration)
 export async function getPlants() {
     'use server';
     const plants = await prisma.plant.findMany();
     return plants;
 }
 
+//Runs on Delete Button Press in Garden
 export async function deletePlant(id: number) {
     'use server';
     const delPlant = await prisma.plant.delete({
         where: { id: id },
     });
+    revalidatePath('/');
     redirect('/');
 }
 

@@ -1,5 +1,5 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyDyU_4qEGKLOME1lyUOIkFhRqASYF_BNAs",
+  apiKey: "AIzaSyBqDOHut3NO4K_74JYi7gk-uGQKzzvjvUQ",
   authDomain: "garden-helper-67979.firebaseapp.com",
   projectId: "garden-helper-67979",
   storageBucket: "garden-helper-67979.firebasestorage.app",

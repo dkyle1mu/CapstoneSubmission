@@ -3,6 +3,7 @@ import prisma from '@/app/client'
 
 type Plant = { id: number, name: string, waterInterval: number, timeTillWater: number };
 
+//Waits for Request from Firebase
 export async function POST(request: Request) {
   try {
     const dryPlants: string[] = []
@@ -11,6 +12,7 @@ export async function POST(request: Request) {
     const updatedPlants = plants.map(async (plant: Plant) => {
       let newTimeTillWater = plant.timeTillWater - .1
       if (newTimeTillWater === 0) {
+        //Adds Plant Names that Need Watering
         dryPlants.push(plant.name)
       }
       if (newTimeTillWater < 0) newTimeTillWater = 0
@@ -23,9 +25,10 @@ export async function POST(request: Request) {
     await Promise.all(updatedPlants)
 
     if (dryPlants.length > 0) {
+      //Returns Array of Dry Plants for Notification with Status 200
       return NextResponse.json(dryPlants, { status: 200 })
     }
-
+    //Returns 204 Indicating Succes with No Content
     console.log("No plants need watering at this time. But I did check. For you. You're welcome.")
     return new NextResponse(null, { status: 204 })
   } catch (error) {
