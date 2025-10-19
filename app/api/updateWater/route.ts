@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     console.log("No plants need watering at this time. But I did check. For you. You're welcome.")
-    return new NextResponse(null, { status: 200 })
+    return new NextResponse(null, { status: 204 })
   } catch (error) {
     console.error('updateWater error:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

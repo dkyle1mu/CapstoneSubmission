@@ -2,9 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import { markWatered, getPlants, deletePlant } from './api/api';
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from './api/firebaseSettings';
+
+
+const app = initializeApp(firebaseConfig);
 
 type Plant = { id: number, name: string, waterInterval: number, timeTillWater: number };
 
+/* Bypassed for Now
 function confirmDelete(id: number, name: string) {
     return (
         <div className='block'>
@@ -12,13 +18,13 @@ function confirmDelete(id: number, name: string) {
             <button type="submit" onClick={() => void deletePlant(id)}>Delete Plant</button>
         </div>
     )
-}
+} */
 
 function PlantCard(plant: Plant) {
    
     return(
         <div className="m-4 p-4 border-1 border-emerald-600 bg-amber-100 rounded-lg">
-            <h6 className="-mt-4 text-right"><button type = "button" onClick={() => deletePlant(plant.id)} >x</button></h6> {/* ###Does not function */}
+            <h6 className="-mt-4 text-right"><button type = "button" onClick={() => deletePlant(plant.id)} >x</button></h6>
             <h2 className="text-2xl -mt-1">{plant.name}</h2>
             <progress value={plant.waterInterval - plant.timeTillWater} max={plant.waterInterval} className="w-full h-4 mt-2 mb-2"></progress>
             <p><b>{plant.timeTillWater}</b> hours until next watering.</p>

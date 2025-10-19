@@ -11,7 +11,7 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-async function updateWater() {
+export async function updateWaterNotif() {
     try { const res = await fetch('/api/updateWater', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
